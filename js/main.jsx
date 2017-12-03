@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     render() {
-
-      return <div onClick={this.handleClick} key={this.props.i} className={`${this.state.open || "open"} ${this.state.open || "open-active"} panel panel${this.props.i + 1}`}>
+      const divStyle = {
+        backgroundImage: 'url(' + this.props.image + ')'
+      };
+      return <div onClick={this.handleClick} key={this.props.i} className={`${this.state.open || "open-active open"}  panel panel${this.props.i + 1}`} style={divStyle}>
         <h3>{this.props.name}
         </h3>
         <div className="info">
@@ -43,10 +45,31 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   class Projects extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        pic: 0
+      };
+    }
+    scroll = () => {
+
+      this.setState({
+        pic: this.state.pic > 6
+          ? 0
+          : this.state.pic + .05
+
+      })
+    }
 
     render() {
-      return (<div className="panels">
-        {this.props.items.map((el, i) => <Project key={i} i={i} name={el.project} location={el.location} year={el.year} architect={el.architect} contractor={el.contractor}/>)}
+      return (<div onWheel={this.scroll} className="panels">
+        {
+          this.props.items.map(
+            (el, i) => (i >= this.state.pic && i < this.state.pic + 6)
+            ? <Project key={i} i={i} name={el.project} location={el.location} year={el.year}
+              architect={el.architect} contractor={el.contractor} image={el.image}/>
+            : null)
+        }
       </div>);
     }
   }
