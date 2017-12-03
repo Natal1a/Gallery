@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scroll = () => {
 
       this.setState({
-        pic: this.state.pic > 6
+        pic: this.state.pic > 9
           ? 0
           : this.state.pic + .05
 
